@@ -1,0 +1,33 @@
+/* DepositComponent.css */
+
+.deposit-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.deposit-amount-input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.custom-input {
+    padding: 8px;
+    margin-right: 10px;
+}
+
+.deposit-button {
+    height: 50px;
+    margin-top: 10px;
+    background: #d3d3d3;
+}
+
+.deposit-component {
+    padding: 1px;
+}

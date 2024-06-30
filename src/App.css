@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -9,7 +9,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 10s linear;
   }
 }
 
@@ -32,7 +32,88 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+} */
+
+
+/* App.css */
+.main-app {
+  background-color: #bfab88;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-image: url('./images/fountain-pen.png');
+  /* Add background image path */
+  background-size: contain;
+  /* Ensure the image covers the entire area */
+  background-repeat: no-repeat;
+  /* Prevent image repetition */
+  background-position: center;
+  /* Center the image */
+}
+
+.main-app-content {
+  text-align: center;
+  display: flex;
+  /* Make the content a flex container (optional for this example) */
+  /* justify-content and align-items are no longer needed */
+}
+
+.top-left-heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+}
+
+.cta-button {
+  font-size: 1.2em;
+  /* Increase font size */
+  padding: 15px 30px;
+  /* Increase padding */
+  border: none;
+  border-radius: 5px;
+  background-color: #d3d3d3;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #77ef43;
+  transform: scale(1.03);
+  /* Slightly enlarge the button on hover */
+}
+
+.connect-wallet-button {
+  font-size: 1.2em;
+  height: 50px;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #d3d3d3;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  position: absolute;
+  /* Keep absolute positioning */
+  /* Remove bottom and transform styles */
+  /* Left: 50% and transform: translateX(-50%) are no longer needed for centering */
+  top: calc(50px + 2 * var(--heading-margin));
+  /* New style: positions below heading */
+  right: var(--heading-margin);
+  /* New style: positions with margin */
+  margin-top: 0;
+  /* Remove margin-top */
+}
+
+/* Optional: Add a variable for heading margin consistency  */
+:root {
+  --heading-margin: 10px;
+  /* Adjust as needed */
 }
