@@ -17,15 +17,15 @@
     box-sizing: border-box;
 }
 
-.custom-input {
-    padding: 8px;
-    margin-right: 10px;
-}
-
 .deposit-button {
     height: 50px;
     margin-top: 10px;
     background: #d3d3d3;
+}
+
+.custom-input {
+    padding: 8px;
+    margin-right: 10px;
 }
 
 .deposit-component {
