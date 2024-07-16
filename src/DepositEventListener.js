@@ -1,7 +1,7 @@
 // DepositEventListener.js
 
 import { ethers } from "ethers";
-import lockdropABI from './contracts/LockDrop.json';            // <-- HERE !!
+import lockdropABI from './contracts/LockDrop.json';
 import Swal from 'sweetalert2';
 
 export const checkEventsDeposit = async () => {

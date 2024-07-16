@@ -39,7 +39,7 @@ export const checkEventsWithdraw = async () => {
             resolve();
         };
 
-        // Attach listener only if not already attached
+        // Attach listener only if not already attached (toggle flag)
         if (!withdrawListenerAttached) {
             contract.on("NewWithdraw", handleNewWithdraw);
             withdrawListenerAttached = true;

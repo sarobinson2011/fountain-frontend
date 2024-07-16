@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import DepositComponent from './DepositComponent.js';
 import WithdrawComponent from './WithdrawComponent';
-// import sandboxHandler from './Sandbox.js';
 
 
 function App() {
@@ -68,6 +67,7 @@ function App() {
 
   useEffect(() => {
     checkWalletIsConnected();
+
   }, []);
 
 

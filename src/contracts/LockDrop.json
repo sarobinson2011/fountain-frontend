@@ -28,7 +28,7 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "_timestamp",
+                "name": "_blockstamp",
                 "type": "uint256"
             }
         ],
@@ -53,7 +53,7 @@
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "_timestamp",
+                "name": "_blockstamp",
                 "type": "uint256"
             }
         ],
@@ -77,7 +77,12 @@
             },
             {
                 "internalType": "uint256",
-                "name": "timestamp",
+                "name": "blockstamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "reward",
                 "type": "uint256"
             }
         ],
@@ -93,12 +98,25 @@
     },
     {
         "inputs": [],
-        "name": "owner",
+        "name": "returnBlockReward",
         "outputs": [
             {
-                "internalType": "address",
+                "internalType": "uint256",
                 "name": "",
-                "type": "address"
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "rewardValue",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
