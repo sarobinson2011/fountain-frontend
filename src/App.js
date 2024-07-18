@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import DepositComponent from './DepositComponent.js';
 import WithdrawComponent from './WithdrawComponent';
+import { checkEventsReward } from './RewardEventListener';
 
 
 function App() {
@@ -68,7 +69,10 @@ function App() {
   useEffect(() => {
     checkWalletIsConnected();
 
-  }, []);
+    if (currentAccount) {
+      checkEventsReward();  // Call checkEventsReward when currentAccount changes
+    }
+  }, [currentAccount]);
 
 
   return (

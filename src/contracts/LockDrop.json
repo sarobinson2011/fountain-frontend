@@ -61,6 +61,12 @@
         "type": "event"
     },
     {
+        "anonymous": false,
+        "inputs": [],
+        "name": "RewardBalanceZero",
+        "type": "event"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",

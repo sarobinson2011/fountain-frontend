@@ -4,7 +4,15 @@ import { ethers } from "ethers";
 import lockdropABI from './contracts/LockDrop.json';
 import Swal from 'sweetalert2';
 
+let depositListenerAttached = false; // Flag to track listener state
+
 export const checkEventsDeposit = async () => {
+
+    const { ethereum } = window;
+    if (!ethereum) {
+        console.log("Metamask not connected. Please install or connect your wallet.");
+        return;
+    }
 
     return new Promise((resolve, reject) => {
 
@@ -26,14 +34,18 @@ export const checkEventsDeposit = async () => {
             });
             // ===== </stylised event message> =====
 
-            contract.off("NewDeposit", handleNewDeposit);   // Remove the event listener
             resolve();
         };
 
-        contract.on("NewDeposit", handleNewDeposit);
+        // Attach listener only if not already attached (toggle flag)
+        if (!depositListenerAttached) {
+            contract.on("NewDeposit", handleNewDeposit);
+            depositListenerAttached = true;
+        }
 
     }).catch((error) => {
         console.error("Error during promise execution:", error);
         return Promise.reject(error);
     });
 };
+
