@@ -34,8 +34,6 @@ export const checkEventsWithdraw = async () => {
             });
             // ===== </stylised event message> =====
 
-
-            // contract.off("NewWithdraw", handleNewWithdraw);   // Remove the event listener
             resolve();
         };
 
