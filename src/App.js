@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import './App.css';
 import DepositComponent from './DepositComponent.js';
 import WithdrawComponent from './WithdrawComponent';
-import { checkEventsReward } from './RewardEventListener';
+// import { checkEventsReward } from './RewardEventListener';
 import lockdropABI from './contracts/LockDrop.json';
 
 
@@ -69,42 +69,31 @@ function App() {
   };
 
 
-  const returnBlockReward = async () => {
+  // const returnBlockReward = async () => {
+  //   const { ethereum } = window;
+  //   if (!ethereum) {
+  //     console.error("Metamask not connected. Please install or connect your wallet.");
+  //     return;
+  //   }
 
-    const { ethereum } = window;
-    if (!ethereum) {
-      console.error("Metamask not connected. Please install or connect your wallet.");
-      return;
-    }
+  //   try {
+  //     const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
+  //     if (!contractAddress) {
+  //       console.log("Contract address is not defined in environment variables.");
+  //       return;
+  //     }
 
+  //     const provider = new ethers.BrowserProvider(window.ethereum);
+  //     let contractInstance = new ethers.Contract(contractAddress, lockdropABI, provider);
 
-    try {
-      const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
-      if (!contractAddress) {
-        console.log("Contract address is not defined in environment variables.");
-        return;
-      }
+  //     const blockReward = await contractInstance.returnBlockReward();
 
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      let contractInstance = new ethers.Contract(contractAddress, lockdropABI, provider);
+  //     setBlockReward(blockReward.toNumber());
 
-
-      const blockReward = await contractInstance.returnBlockReward();
-      setBlockReward(blockReward.toNumber());                           // Convert to number for display
-    } catch (error) {
-      console.error('Error fetching block reward:', error);
-    }
-  };
-
-
-  const blockRewardDisplay = () => {
-    return (
-      <div>
-        Block Reward: {blockReward ? blockReward.toString() : 'No reward yet'}
-      </div>
-    );
-  };
-
+  //   } catch (error) {
+  //     console.error('Error fetching block reward:', error);
+  //   }
+  // };
 
 
   useEffect(() => {
@@ -119,6 +108,33 @@ function App() {
 
 
 
+  // new code
+  useEffect(() => {
+    const fetchBlockReward = async () => {
+      try {
+
+        const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
+        if (!contractAddress) {
+          console.log("Contract address is not defined in environment variables.");
+          return;
+        }
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        let contractInstance = new ethers.Contract(contractAddress, lockdropABI, provider);
+
+        const reward = await contractInstance.returnBlockReward();
+        setBlockReward(reward);
+
+      } catch (error) {
+        console.error('Error fetching block reward:', error);
+      }
+    };
+
+    fetchBlockReward();
+  }, []);
+  // end new code
+
+
 
   return (
     <div className='main-app'>
@@ -128,21 +144,22 @@ function App() {
         <div style={{ marginBottom: '10px' }}>
           {connectWalletButton()}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <button onClick={returnBlockReward} className='cta-button'>
-            Get Block Reward
+        <div style={{ flexGrow: 1 }}> {/* Main content area */}
+          <DepositComponent />
+          <WithdrawComponent />
+        </div>
+        <div style={{ position: 'absolute', bottom: 10, left: 10 }}>
+          <button onClick={setBlockReward} className='cta-button'>
+            Current reward
           </button>
-          {blockRewardDisplay()}
-        </div>
-        <div style={{ marginBottom: '10px' }}>
-          <DepositComponent /> {/* Use the DepositComponent */}
-        </div>
-        <div style={{ marginBottom: '10px' }}>
-          <WithdrawComponent /> {/* Use the WithdrawComponent */}
+          <div style={{ marginLeft: 10 }}>
+            Block Reward: {blockReward ? blockReward.toString() : 'No reward yet'}
+          </div>
         </div>
       </div>
     </div>
   );
+
 }
 
-export default App;
+export default App; 
