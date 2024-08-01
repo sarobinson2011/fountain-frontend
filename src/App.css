@@ -77,3 +77,8 @@
   --heading-margin: 10px;
   /* Adjust as needed */
 }
+
+
+
+
+/* event RewardReturned(address indexed _user, uint256 _amount); */

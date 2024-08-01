@@ -4,7 +4,8 @@ import { ethers } from "ethers";
 import './App.css';
 import DepositComponent from './DepositComponent.js';
 import WithdrawComponent from './WithdrawComponent';
-// import { checkEventsReward } from './RewardEventListener';
+import { checkEventsReward } from './RewardEventListener.js';
+import { checkCurrentReward } from './CurrentRewardListener.js';
 import lockdropABI from './contracts/LockDrop.json';
 
 
@@ -69,70 +70,34 @@ function App() {
   };
 
 
-  // const returnBlockReward = async () => {
-  //   const { ethereum } = window;
-  //   if (!ethereum) {
-  //     console.error("Metamask not connected. Please install or connect your wallet.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
-  //     if (!contractAddress) {
-  //       console.log("Contract address is not defined in environment variables.");
-  //       return;
-  //     }
-
-  //     const provider = new ethers.BrowserProvider(window.ethereum);
-  //     let contractInstance = new ethers.Contract(contractAddress, lockdropABI, provider);
-
-  //     const blockReward = await contractInstance.returnBlockReward();
-
-  //     setBlockReward(blockReward.toNumber());
-
-  //   } catch (error) {
-  //     console.error('Error fetching block reward:', error);
-  //   }
-  // };
-
 
   useEffect(() => {
     checkWalletIsConnected();
-
-    //   if (currentAccount) {
-    //     checkEventsReward();
-    //   }
-    // }, [currentAccount]);        // how to call checkEventsReward() whenever currentAccount changes  
-
-  }, []);
+    if (currentAccount) {
+      checkEventsReward();
+      checkCurrentReward();
+    }
+  }, [currentAccount]);        // contract.on both functions, when a wallet is connected
 
 
 
-  // new code
-  useEffect(() => {
-    const fetchBlockReward = async () => {
-      try {
-
-        const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
-        if (!contractAddress) {
-          console.log("Contract address is not defined in environment variables.");
-          return;
-        }
-
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        let contractInstance = new ethers.Contract(contractAddress, lockdropABI, provider);
-
-        const reward = await contractInstance.returnBlockReward();
-        setBlockReward(reward);
-
-      } catch (error) {
-        console.error('Error fetching block reward:', error);
+  const handleRewardClick = async () => {                                           // this needs fixing <-- ToDo
+    try {
+      const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
+      if (!contractAddress) {
+        console.log("Contract address is not defined in environment variables.");
+        return;
       }
-    };
 
-    fetchBlockReward();
-  }, []);
-  // end new code
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      let contractInstance = new ethers.Contract(contractAddress, lockdropABI, provider);
+      const reward = await contractInstance.returnBlockReward();
+      setBlockReward(reward.toString());
+
+    } catch (error) {
+      console.error('Error fetching block reward:', error);
+    }
+  };
 
 
 
@@ -149,11 +114,11 @@ function App() {
           <WithdrawComponent />
         </div>
         <div style={{ position: 'absolute', bottom: 10, left: 10 }}>
-          <button onClick={setBlockReward} className='cta-button'>
+          <button onClick={handleRewardClick} className='cta-button'>
             Current reward
           </button>
           <div style={{ marginLeft: 10 }}>
-            Block Reward: {blockReward ? blockReward.toString() : 'No reward yet'}
+            Block Reward: {blockReward}
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
-/* RewardEventListener.js */
+/* CurrentRewardListener.js */
 
 import { ethers } from "ethers";
-import tokenmanagerABI from './contracts/TokenManager.json';
+import lockdropABI from './contracts/LockDrop.json';
 
-let rewardListenerAttached = false;                     // Flag to track listener state
+let currentRewardListenerAttached = false;   // Flag to track listener state
 
-export const checkEventsReward = async () => {
+export const checkCurrentReward = async () => {
 
     const { ethereum } = window;
     if (!ethereum) {
@@ -21,16 +21,17 @@ export const checkEventsReward = async () => {
         }
 
         const provider = new ethers.BrowserProvider(window.ethereum);
-        let contract = new ethers.Contract(contractAddress, tokenmanagerABI, provider);
+        const contract = new ethers.Contract(contractAddress, lockdropABI, provider);
 
-        const handleRewardBalanceZero = () => {
-            console.log("Zero reward tokens left for transfer");
+        const handleRewardReturned = (user, reward) => {
+            console.log("Reward returned = ", reward.toString());
+            console.log("User wallet address: ", user);
         };
 
         // Attach listener only if not already attached
-        if (!rewardListenerAttached) {
-            contract.on("RewardBalanceZero", handleRewardBalanceZero);
-            rewardListenerAttached = true;
+        if (!currentRewardListenerAttached) {
+            contract.on("RewardReturned", handleRewardReturned);
+            currentRewardListenerAttached = true;
         } else {
             console.log("Listener already attached");
         }
