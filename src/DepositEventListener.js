@@ -48,4 +48,3 @@ export const checkEventsDeposit = async () => {
         return Promise.reject(error);
     });
 };
-

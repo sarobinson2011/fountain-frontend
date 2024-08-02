@@ -1,9 +1,9 @@
-/* CurrentRewardListener.js */
+// CurrentRewardListener.js
 
 import { ethers } from "ethers";
 import lockdropABI from './contracts/LockDrop.json';
 
-let currentRewardListenerAttached = false;   // Flag to track listener state
+let currentRewardListenerAttached = false; // Flag to track listener state
 
 export const checkCurrentReward = async () => {
 
@@ -13,29 +13,27 @@ export const checkCurrentReward = async () => {
         return;
     }
 
-    try {
-        const contractAddress = process.env.REACT_APP_TOKENMANAGER_ADDRESS;
-        if (!contractAddress) {
-            console.log("Contract address is not defined in environment variables.");
-            return;
-        }
+    return new Promise((resolve, reject) => {
 
+        const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
         const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(contractAddress, lockdropABI, provider);
+        let contract = new ethers.Contract(contractAddress, lockdropABI, provider);
 
-        const handleRewardReturned = (user, reward) => {
-            console.log("Reward returned = ", reward.toString());
-            console.log("User wallet address: ", user);
+        const handleCurrentReward = (user, amount) => {
+
+            console.log("Reward returned:", "User:", user, "Amount:", amount);
+
+            resolve();
         };
 
-        // Attach listener only if not already attached
+        // Attach listener only if not already attached (toggle flag)
         if (!currentRewardListenerAttached) {
-            contract.on("RewardReturned", handleRewardReturned);
+            contract.on("RewardReturned", handleCurrentReward);
             currentRewardListenerAttached = true;
-        } else {
-            console.log("Listener already attached");
         }
-    } catch (error) {
+
+    }).catch((error) => {
         console.error("Error during promise execution:", error);
-    }
+        return Promise.reject(error);
+    });
 };
